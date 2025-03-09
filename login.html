@@ -4,66 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Catatan Keuangan</title>
-    <link rel="stylesheet" href="auth.css">
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        :root {
+            --primary: #ff85a2;
+            --secondary: #ffb6c1;
+            --background: #fff0f5;
+            --text: #4a4a4a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--background);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-header h1 {
+            color: var(--primary);
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+        }
+
+        .brand-header p {
+            color: var(--text);
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .auth-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="brand-header">
-                <h1>🐷 Catatan Keuangan</h1>
-                <p>Kelola keuanganmu dengan mudah dan aman</p>
+    <div class="login-container">
+        <div class="brand-header">
+            <h1>🐷 Catatan Keuangan</h1>
+            <p>Kelola keuanganmu dengan mudah dan aman</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">📧 Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    placeholder="contoh@email.com"
+                    required
+                >
             </div>
 
-            <div class="auth-content">
-                <div data-netlify-identity-button></div>
-                
-                <div class="auth-divider">
-                    <span>atau</span>
-                </div>
-
-                <form id="loginForm" class="auth-form">
-                    <div class="form-group">
-                        <label for="email">📧 Email</label>
-                        <input type="email" id="email" required 
-                            placeholder="contoh@email.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password">🔑 Password</label>
-                        <input type="password" id="password" required 
-                            placeholder="Minimal 8 karakter">
-                    </div>
-
-                    <button type="submit" class="btn-primary">
-                        🔓 Masuk ke Dashboard
-                    </button>
-                </form>
+            <div class="form-group">
+                <label for="password">🔑 Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Minimal 8 karakter"
+                    minlength="8"
+                    required
+                >
             </div>
 
-            <p class="auth-footer">
-                Belum punya akun? 
-                <a href="register.html" class="text-link">Daftar disini</a>
-            </p>
+            <button type="submit">Masuk ke Dashboard</button>
+        </form>
+
+        <div class="auth-links">
+            <p>Belum punya akun? <a href="register.html">Daftar disini</a></p>
+            <p><a href="#lupa-password">Lupa password?</a></p>
         </div>
     </div>
 
     <script>
-        if (window.netlifyIdentity) {
-            netlifyIdentity.on("init", user => {
-                if (!user) {
-                    netlifyIdentity.on("login", () => {
-                        window.location.href = "/dashboard.html";
-                    });
-                }
-            });
-        }
-
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            
+
             try {
                 const user = await netlifyIdentity.login(email, password);
                 if (user) window.location.href = "/dashboard.html";
