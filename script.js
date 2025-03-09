@@ -1,49 +1,9 @@
-// Fungsi API Handler
-const api = {
-    async get(endpoint) {
-        const res = await fetch(`api/${endpoint}`);
-        if(!res.ok) throw new Error(await res.text());
-        return res.json();
-    },
-
-    async post(endpoint, data) {
-        console.log("Mengirim data ke:", endpoint, "Data:", data);
-
-        const res = await fetch(`api/${endpoint}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify(data)
-        });
-
-        const text = await res.text(); // Ambil response dalam bentuk teks
-        console.log("Response dari server:", text); // Log response untuk debugging
-
-        if (!res.ok) {
-            throw new Error("Gagal: " + text);
-        }
-
-        return text; // Kembalikan teks biasa
-    },
-
-    async delete(endpoint) {
-        const res = await fetch(`api/${endpoint}`, { method: 'DELETE' });
-        if(!res.ok) throw new Error(await res.text());
-        return res.json();
-    }
-};
-
 // Manajemen Transaksi
 const transactionManager = {
     transactions: [],
     currentEditId: null,
     financeChart: null,
     currentFilter: null,
-
-    async init() {
-        this.transactions = await api.get('api/transactions.php');
-        this.initChart();
-        this.updateAll();
-    },
 
     initChart() {
         const ctx = document.getElementById('financeChart').getContext('2d');
