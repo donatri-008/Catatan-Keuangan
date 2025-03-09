@@ -24,6 +24,14 @@
 
                 <form id="registerForm" class="auth-form">
                     <div class="form-group">
+                        <label for="username">👤 Username</label>
+                        <input type="text" id="username" name="username" required 
+                            minlength="3" pattern="[a-zA-Z0-9_]+" 
+                            title="Hanya boleh mengandung huruf, angka, dan underscore"
+                            placeholder="Masukkan username unik">
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="email">📧 Email</label>
                         <input type="email" id="email" required 
                             placeholder="contoh@email.com">
@@ -47,23 +55,28 @@
             </p>
         </div>
     </div>
-
     <script>
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const user = await netlifyIdentity.signup(email, password);
-                if (user) {
-                    alert('Verifikasi email telah dikirim!');
-                    window.location.href = "/login.html";
-                }
-            } catch (error) {
-                alert('Pendaftaran gagal: ' + error.message);
-            }
-        });
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const username = document.getElementById('username').value;
+    
+        try {
+            // Daftar user dengan Netlify Identity
+            const user = await netlifyIdentity.signup(email, password);
+            
+            // Update metadata user dengan username
+            await user.update({
+                data: { username: username }
+            });
+    
+            alert('Registrasi berhasil! Silakan cek email untuk verifikasi');
+            window.location.href = "/login.html";
+        } catch (error) {
+            alert('Pendaftaran gagal: ' + error.message);
+        }
+    });
     </script>
 </body>
 </html>
