@@ -19,10 +19,19 @@ const authManager = {
 
     handleLogin(user) {
         this.currentUser = user;
+        this.showUserGreeting();
         transactionManager.init();
         this.setupLogoutButton();
         this.restoreTheme();
     },
+
+    showUserGreeting() {
+        const username = this.currentUser?.user_metadata?.username || 'Pengguna';
+        const greeting = document.getElementById('userGreeting');
+        if(greeting) {
+            greeting.innerHTML = `Hai, <strong>${username}</strong>`;
+        }
+    }
 
     handleLogout() {
         this.currentUser = null;
