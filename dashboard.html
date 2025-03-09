@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💸 Catatan Keuangan</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
 </head>
 <body>
@@ -15,12 +15,6 @@
                 <button onclick="toggleTheme()">🌞</button>
             </div>
         </header>
-        <section class="greeting-section">
-            <div class="welcome-message">
-                <h2>Selamat datang, <?= sanitize($_SESSION['user_data']['username']) ?>! 👋</h2>
-                <p>Mulai kelola keuangan Anda hari ini</p>
-            </div>
-        </section>
 
         <!-- Dashboard -->
         <div class="dashboard">
@@ -107,8 +101,8 @@
         </div>
     </div>
 
-    <button a href="auth/logout.php" class="logout-btn">🚪 Logout</a></button>
+    <button a href="logout.html" class="logout-btn">🚪 Logout</a></button>
 
-    <script src="./assets/js/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
