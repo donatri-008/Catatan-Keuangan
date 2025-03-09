@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         :root {
             --primary: #ff85a2;
@@ -143,7 +144,7 @@
 
 <body>
     <div class="auth-container">
-        <form action="https://formspree.io/f/xldjrqgj" method="POST">
+        <form>
             <div class="auth-header">
                 <h1>🔐 Login</h1>
                 <p>Buat akun untuk mulai mengelola keuangan</p>
@@ -164,5 +165,16 @@
             <p>Belum punya akun? <a href="register.html">Daftar disini</a></p>
         </form>
     </div>
+    <script>
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/dashboard.html";
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 </html>
