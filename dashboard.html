@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💸 Catatan Keuangan</title>
+    <title>🐷 Dashboard Catatan Keuangan</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>💸 Catatan Keuangan</h1>
-            <div class="theme-switch">
-                <button onclick="toggleTheme()">🌞</button>
+            <h1>🐷 Catatan Keuangan</h1>
+            <div class="header-controls">
+                <div class="theme-switch">
+                    <button onclick="toggleTheme()">🌞</button>
+                </div>
             </div>
         </header>
 
-        <!-- Dashboard -->
+        <!-- Dashboard Summary -->
         <div class="dashboard">
             <div class="card balance-card">
                 <h2>💰 Saldo Sekarang</h2>
@@ -39,10 +42,11 @@
             </div>
         </div>
 
-        <!-- Form Transaksi -->
+        <!-- Transaction Form -->
         <div class="card form-card">
-            <h2>✏️ Tambah/Edit Transaksi</h2>
-            <form action="https://formspree.io/f/xyzegrkw" method="POST" id="transactionForm">
+            <h2>✏️ Kelola Transaksi</h2>
+            <form id="transactionForm">
+                <input type="hidden" id="transactionId">
                 <div class="form-grid">
                     <div class="form-group">
                         <label>📝 Nama Transaksi</label>
@@ -50,7 +54,7 @@
                     </div>
                     <div class="form-group">
                         <label>💵 Jumlah (Rp)</label>
-                        <input type="number" id="transactionAmount" required>
+                        <input type="number" id="transactionAmount" step="1000" required>
                     </div>
                     <div class="form-group">
                         <label>🗓️ Tanggal</label>
@@ -77,31 +81,33 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" id="submitButton">➕ Tambah Transaksi</button>
-                    <button type="button" onclick="cancelEdit()">❌ Batal Edit</button>
+                    <button type="button" onclick="transactionManager.cancelEdit()">❌ Batal Edit</button>
                 </div>
             </form>
         </div>
 
-        <!-- Filter -->
+        <!-- Filter Controls -->
         <div class="card tools-card">
             <div class="filter-group">
                 <label>📅 Filter Tanggal:</label>
-                <input type="date" id="startDate">
+                <input type="date" id="startDate" aria-label="Tanggal mulai">
                 <span>sampai</span>
-                <input type="date" id="endDate">
-                <button onclick="filterTransactions()">🔍 Filter</button>
-                <button onclick="clearFilter()">♻️ Reset</button>
+                <input type="date" id="endDate" aria-label="Tanggal akhir">
+                <button type="button" onclick="transactionManager.applyFilter()">🔍 Filter</button>
+                <button type="button" onclick="transactionManager.clearFilter()">♻️ Reset</button>
             </div>
         </div>
 
-        <!-- Daftar Transaksi -->
+        <!-- Transaction List -->
         <div class="card transaction-card">
             <h2>📜 Riwayat Transaksi</h2>
-            <div id="transactions"></div>
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+                Memuat data transaksi...
+            </div>
+            <div id="transactions" class="transactions-container"></div>
         </div>
     </div>
-
-    <button a href="logout.html" class="logout-btn">🚪 Logout</a></button>
 
     <script src="script.js"></script>
 </body>
