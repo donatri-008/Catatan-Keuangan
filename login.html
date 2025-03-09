@@ -4,48 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Catatan Keuangan</title>
-    <!-- Tambahkan CSS -->
-    <link rel="stylesheet" href="auth.css">
-    <!-- Netlify Identity -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-</head>
+    <style>
+        /* Custom CSS */
+        :root {
+            --primary: #ff85a2;
+            --secondary: #ffb6c1;
+            --background: #fff0f5;
+        }
 
+        body {
+            background: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+        }
+
+        .login-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
 <body>
-    <div class="auth-container">
+    <div class="login-box">
         <div class="brand-header">
             <h1>🐷 Catatan Keuangan</h1>
             <p>Kelola keuanganmu dengan mudah dan aman</p>
         </div>
 
-        <!-- Ganti checklist dengan form sebenarnya -->
-        <form id="loginForm">
+        <!-- Form Custom -->
+        <form id="customLoginForm">
             <div class="form-group">
                 <label>📧 Email</label>
-                <input 
-                    type="email" 
-                    placeholder="contoh@email.com"
-                    required
-                >
+                <input type="email" required placeholder="contoh@email.com">
             </div>
 
             <div class="form-group">
                 <label>🔑 Password</label>
-                <input
-                    type="password"
-                    placeholder="Minimal 8 karakter"
-                    minlength="8"
-                    required
-                >
+                <input type="password" required minlength="8">
             </div>
 
-            <button type="submit" class="btn-primary">
-                🚀 Masuk ke Dashboard
-            </button>
+            <button type="submit">MASUK KE DASHBOARD</button>
         </form>
 
-        <div class="auth-footer">
-            <p>Belum punya akun? <a href="register.html">Daftar disini</a></p>
-        </div>
+        <p style="text-align: center; margin-top: 1rem;">
+            Belum punya akun? <a href="register.html">Daftar disini</a>
+        </p>
     </div>
+
+    <!-- Gunakan GoTrue JS bukan widget -->
+    <script src="https://cdn.jsdelivr.net/npm/gotrue-js/dist/gotrue.min.js"></script>
+    <script>
+        const auth = new GoTrue({
+            APIUrl: 'https://[SITE_URL]/.netlify/identity',
+            setCookie: true
+        });
+
+        document.getElementById('customLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            const password = e.target.querySelector('input[type="password"]').value;
+
+            try {
+                const response = await auth.login(email, password);
+                window.location.href = '/dashboard.html';
+            } catch (error) {
+                alert('Login gagal: ' + error.json?.error_description || error.message);
+            }
+        });
+    </script>
 </body>
 </html>
