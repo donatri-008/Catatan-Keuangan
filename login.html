@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Catatan Keuangan</title>
     <style>
-        /* Custom CSS */
         :root {
             --primary: #ff85a2;
             --secondary: #ffb6c1;
             --background: #fff0f5;
+            --text: #4a4a4a;
+            --card-bg: #ffffff;
+            --radius: 15px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         body {
@@ -37,7 +40,24 @@
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 92%;
+            padding: 0.8rem;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text);
         }
 
         input {
@@ -49,13 +69,19 @@
         }
 
         button {
-            background: var(--primary);
-            color: white;
             width: 100%;
-            padding: 12px;
+            background-color: var(--primary);
+            color: white;
             border: none;
+            padding: 10px 0;
             border-radius: 8px;
+            font-size: 1.2rem;
             cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -78,7 +104,7 @@
                 <input type="password" required minlength="8">
             </div>
 
-            <button type="submit">MASUK KE DASHBOARD</button>
+            <button type="submit">MASUK </button>
         </form>
 
         <p style="text-align: center; margin-top: 1rem;">
