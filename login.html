@@ -4,184 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Catatan Keuangan</title>
-    <style>
-        /* CSS Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #ff85a2;
-            --secondary: #ffb6c1;
-            --background: #fff0f5;
-            --text: #4a4a4a;
-            --card-bg: #ffffff;
-            --radius: 15px;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        body {
-            background-color: var(--background);
-            font-family: 'Arial', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .auth-container {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .auth-header h1 {
-            color: var(--primary);
-            margin: 0 0 0.5rem 0;
-            font-size: 2rem;
-        }
-
-        .auth-header p {
-            color: var(--text);
-            margin: 0;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid var(--secondary);
-            border-radius: 8px;
-            font-size: 1rem;
-            background: var(--card-bg);
-            color: var(--text);
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn-primary {
-            width: 100%;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: var(--text);
-        }
-
-        .auth-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        @media (max-width: 480px) {
-            .auth-container {
-                padding: 1.5rem;
-            }
-            
-            .auth-header h1 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-header">
-            <h1>🐷 Catatan Keuangan</h1>
-            <p>Kelola keuanganmu dengan mudah dan aman</p>
-        </div>
-
-        <form id="customLoginForm">
-            <div class="form-group">
-                <label>📧 Email</label>
-                <input 
-                    type="email" 
-                    required 
-                    placeholder="contoh@email.com"
-                >
-            </div>
-
-            <div class="form-group">
-                <label>🔑 Password</label>
-                <input
-                    type="password"
-                    required
-                    minlength="8"
-                    placeholder="Minimal 8 karakter"
-                >
-            </div>
-
-            <button type="submit" class="btn-primary">MASUK KE DASHBOARD</button>
-        </form>
-
-        <div class="auth-footer">
-            <p>Belum punya akun? <a href="register.html">Daftar disini</a></p>
-            <p><a href="#lupa-password">Lupa password?</a></p>
+    <div class="container">
+        <div class="auth-card">
+            <h1>🐷 Masuk ke Aplikasi</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>📧 Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>🔑 Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit">🔓 Masuk</button>
+                <p>Belum punya akun? <a href="signup.html">Daftar disini</a></p>
+            </form>
         </div>
     </div>
-
-    <!-- Pastikan URL GoTrue valid -->
-    <script src="https://cdn.jsdelivr.net/npm/gotrue-js/dist/gotrue.min.js"></script>
     <script>
-        // Contoh URL yang valid:
-        // Ganti dengan endpoint Netlify Identity Anda
-        const auth = new GoTrue({
-            APIUrl: 'https://catatan-keuangan.netlify.app/.netlify/identity',
-            setCookie: true
-        });
-
-        document.getElementById('customLoginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
-            const password = e.target.querySelector('input[type="password"]').value;
-
-            try {
-                const response = await auth.login(email, password);
-                window.location.href = '/dashboard.html';
-            } catch (error) {
-                alert('Login gagal: ' + (error.json?.error_description || error.message));
-            }
-        });
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/dashboard.html";
+                    });
+                }
+            });
+        }
     </script>
 </body>
 </html>
