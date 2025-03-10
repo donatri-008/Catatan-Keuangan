@@ -5,32 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Catatan Keuangan</title>
     <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary: #ff85a2 !important;;
-            --secondary: #ffb6c1 !important;;
-            --background: #fff0f5 !important;;
-            --text: #4a4a4a !important;;
-            --card-bg: #ffffff !important;;
+            --primary: #ff85a2;
+            --secondary: #ffb6c1;
+            --background: #fff0f5;
+            --text: #4a4a4a;
+            --card-bg: #ffffff;
             --radius: 15px;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            background-color: var(--background) !important;;
+            background-color: var(--background);
             font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .auth-container {
-            background: var(--card-bg) !important;;
-            border-radius: var(--radius) !important;;
-            box-shadow: var(--shadow) !important;;
-            padding: 2rem !important;;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
             width: 100%;
             max-width: 400px;
         }
@@ -52,12 +58,12 @@
         }
 
         .form-group {
-            margin-bottom: 1rem !important;;
+            margin-bottom: 1rem;
         }
 
         .form-group label {
-            display: block !important;;
-            color: var(--text) !important;;
+            display: block;
+            color: var(--text);
             margin-bottom: 0.5rem;
             font-weight: 500;
         }
@@ -80,7 +86,7 @@
 
         .btn-primary {
             width: 100%;
-            background-color: var(--primary) !important;;
+            background-color: var(--primary);
             color: white;
             border: none;
             padding: 1rem;
@@ -154,10 +160,13 @@
         </div>
     </div>
 
+    <!-- Pastikan URL GoTrue valid -->
     <script src="https://cdn.jsdelivr.net/npm/gotrue-js/dist/gotrue.min.js"></script>
     <script>
+        // Contoh URL yang valid:
+        // Ganti dengan endpoint Netlify Identity Anda
         const auth = new GoTrue({
-            APIUrl: 'https://catatan-keuangan/.netlify/identity',
+            APIUrl: 'https://catatan-keuangan.netlify.app/.netlify/identity',
             setCookie: true
         });
 
@@ -170,7 +179,7 @@
                 const response = await auth.login(email, password);
                 window.location.href = '/dashboard.html';
             } catch (error) {
-                alert('Login gagal: ' + error.json?.error_description || error.message);
+                alert('Login gagal: ' + (error.json?.error_description || error.message));
             }
         });
     </script>
